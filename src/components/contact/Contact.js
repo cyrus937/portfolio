@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
+import React, { useRef, useState } from 'react'
 import Title from '../layouts/Title';
 import ContactLeft from './ContactLeft';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [username, setUsername] = useState("");
@@ -10,6 +11,7 @@ const Contact = () => {
   const [message, setMessage] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const form = useRef();
 
   // ========== Email Validation start here ==============
   const emailValidation = () => {
@@ -27,22 +29,35 @@ const Contact = () => {
       setErrMsg("Phone number is required!");
     } else if (email === "") {
       setErrMsg("Please give your Email!");
-    } else if (!emailValidation(email)) {
-      setErrMsg("Give a valid Email!");
-    } else if (subject === "") {
+    } 
+    // else if (!emailValidation(email)) {
+    //   setErrMsg("Give a valid Email!");
+    // }
+     else if (subject === "") {
       setErrMsg("Plese give your Subject!");
     } else if (message === "") {
       setErrMsg("Message is required!");
     } else {
-      setSuccessMsg(
-        `Thank you dear ${username}, Your Messages has been sent Successfully!`
-      );
+
+      emailjs.sendForm('service_khmqegl', 'template_by16uvt', form.current, 'y6u2PP8mXXFv-KkBY')
+        .then((result) => {
+          console.log(result.text);
+          setSuccessMsg(
+            `Thank you dear ${username}, Your Messages has been sent Successfully!`
+          );
+        }, (error) => {
+          console.log(error.text);
+        });
+
       setErrMsg("");
       setUsername("");
       setPhoneNumber("");
       setEmail("");
       setSubject("");
       setMessage("");
+
+      e.target.reset()
+
     }
   };
   return (
@@ -57,7 +72,7 @@ const Contact = () => {
         <div className="w-full h-auto flex flex-col lgl:flex-row justify-between">
           <ContactLeft />
           <div className="w-full lgl:w-[60%] h-full py-10 bg-gradient-to-r from-[#1e2024] to-[#23272b] flex flex-col gap-8 p-4 lgl:p-8 rounded-lg shadow-shadowOne">
-            <form className="w-full flex flex-col gap-4 lgl:gap-6 py-2 lgl:py-5">
+            <form className="w-full flex flex-col gap-4 lgl:gap-6 py-2 lgl:py-5" ref={form}>
               {errMsg && (
                 <p className="py-3 bg-gradient-to-r from-[#1e2024] to-[#23272b] shadow-shadowOne text-center text-orange-500 text-base tracking-wide animate-bounce">
                   {errMsg}
@@ -76,11 +91,11 @@ const Contact = () => {
                   <input
                     onChange={(e) => setUsername(e.target.value)}
                     value={username}
-                    className={`${
-                      errMsg === "Username is required!" &&
+                    className={`${errMsg === "Username is required!" &&
                       "outline-designColor"
-                    } contactInput`}
+                      } contactInput`}
                     type="text"
+                    name='username'
                   />
                 </div>
                 <div className="w-full lgl:w-1/2 flex flex-col gap-4">
@@ -90,11 +105,11 @@ const Contact = () => {
                   <input
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     value={phoneNumber}
-                    className={`${
-                      errMsg === "Phone number is required!" &&
+                    className={`${errMsg === "Phone number is required!" &&
                       "outline-designColor"
-                    } contactInput`}
+                      } contactInput`}
                     type="text"
+                    name='phoneNumber'
                   />
                 </div>
               </div>
@@ -105,11 +120,11 @@ const Contact = () => {
                 <input
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                  className={`${
-                    errMsg === "Please give your Email!" &&
+                  className={`${errMsg === "Please give your Email!" &&
                     "outline-designColor"
-                  } contactInput`}
+                    } contactInput`}
                   type="email"
+                  name='email'
                 />
               </div>
               <div className="flex flex-col gap-4">
@@ -119,11 +134,11 @@ const Contact = () => {
                 <input
                   onChange={(e) => setSubject(e.target.value)}
                   value={subject}
-                  className={`${
-                    errMsg === "Plese give your Subject!" &&
+                  className={`${errMsg === "Plese give your Subject!" &&
                     "outline-designColor"
-                  } contactInput`}
+                    } contactInput`}
                   type="text"
+                  name='subject'
                 />
               </div>
               <div className="flex flex-col gap-4">
@@ -133,11 +148,11 @@ const Contact = () => {
                 <textarea
                   onChange={(e) => setMessage(e.target.value)}
                   value={message}
-                  className={`${
-                    errMsg === "Message is required!" && "outline-designColor"
-                  } contactTextArea`}
+                  className={`${errMsg === "Message is required!" && "outline-designColor"
+                    } contactTextArea`}
                   cols="30"
                   rows="8"
+                  name='message'
                 ></textarea>
               </div>
               <div className="w-full">
