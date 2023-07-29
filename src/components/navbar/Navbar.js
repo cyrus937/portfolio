@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Link } from "react-scroll";
 import { FiMenu } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
-import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
-import {logo} from "../../assets/index"
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaWhatsapp, FaInstagram } from "react-icons/fa";
+import { logo } from "../../assets/index"
 import { navLinksdata } from '../../constants';
 
 const Navbar = () => {
-  const [showMenu, setShowMenu]=useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   return (
     <div className="w-full h-24 sticky top-0 z-50 bg-bodyColor mx-auto flex justify-between items-center font-titleFont border-b-[1px] border-b-gray-600">
       <div>
@@ -45,8 +45,8 @@ const Navbar = () => {
               <div>
                 <img className="w-32" src={logo} alt="logo" />
                 <p className="text-sm text-gray-400 mt-2">
-                Interested in new technologies and working methods. I like to come up with ideas that to permit to improve business processes.<br></br>
-                Passionate about development <b>Back-End</b> and <b>Front-End</b>.
+                  Interested in new technologies and working methods. I like to come up with ideas that to permit to improve business processes.<br></br>
+                  Passionate about development <b>Back-End</b> and <b>Front-End</b>.
                 </p>
               </div>
               <ul className="flex flex-col gap-4">
@@ -74,15 +74,20 @@ const Navbar = () => {
                   Find me in
                 </h2>
                 <div className="flex gap-4">
-                  <span className="bannerIcon">
-                    <FaFacebookF />
-                  </span>
-                  <span className="bannerIcon">
+                  <a href="https://wa.me/237695104050">
+                    <span className="bannerIcon">
+                      <FaWhatsapp />
+                    </span>
+                  </a>
+                  <a href="https://instagram.com/cyrus_237?utm_source=qr&igshid=MzNlNGNkZWQ4Mg%3D%3D"><span className="bannerIcon">
+                    <FaInstagram />
+                  </span></a>
+                  <a href="https://twitter.com/CyrilleKenfack?t=1ZzTdjK3ICMltMpbWnEySg&s=09"><span className="bannerIcon">
                     <FaTwitter />
-                  </span>
-                  <span className="bannerIcon">
+                  </span></a>
+                  <a href="https://www.linkedin.com/in/cyrille-kenfack-347b64195/"><span className="bannerIcon">
                     <FaLinkedinIn />
-                  </span>
+                  </span></a>
                 </div>
               </div>
               <span

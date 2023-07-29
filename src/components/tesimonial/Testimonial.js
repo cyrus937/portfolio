@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import { RiStarFill } from "react-icons/ri";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi";
 import Title from '../layouts/Title'
-import { testimonialOne,testimonialTwo, quote } from "../../assets";
+import { testimonialOne,testimonialTwo, quote, user } from "../../assets";
 
 
 function SampleNextArrow(props) {
@@ -103,8 +103,8 @@ const Testimonial = () => {
               <div className="w-full lgl:w-[35%] h-full bg-gradient-to-r from-[#1e2024] to-[#23272b] p-8 rounded-lg shadow-shadowOne flex flex-col md:flex-row lgl:flex-col gap-8 justify-center md:justify-start lgl:justify-center">
                 <img
                   className="h-72 md:h-32 lgl:h-72 rounded-lg object-cover"
-                  src={testimonialOne}
-                  alt="testimonialOne"
+                  src={user}
+                  alt="user"
                 />
                 <div className="w-full flex flex-col justify-end">
                   <p className="text-xs uppercase text-designColor tracking-wide mb-2">
@@ -128,20 +128,16 @@ const Testimonial = () => {
                         via WhatsApp - Nov 2022 - Feb 2023
                       </p>
                     </div>
-                    <div className="text-yellow-500 flex gap-1">
+                    {/* <div className="text-yellow-500 flex gap-1">
                       <RiStarFill />
                       <RiStarFill />
                       <RiStarFill />
                       <RiStarFill />
-                      {/* <RiStarFill /> */}
-                    </div>
+                      <RiStarFill />
+                    </div> */}
                   </div>
                   <p className="text-base font-titleFont text-gray-400 font-medium tracking-wide leading-6">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A
-                    dolorum, eos natus ipsum numquam veniam officia
-                    necessitatibus ratione quos debitis exercitationem
-                    repudiandae facilis id neque nihil accusantium perspiciatis
-                    repellat? Iste.
+                  We were delighted to receive the GoFish solution on time. The specifications were met and follow-up meetings provided reassurance as to how the project was progressing.
                   </p>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import projectTwo from "./images/projects/projectTwo.jpg";
 import projectThree from "./images/projects/projectThree.jpeg";
 import testimonialOne from "./images/testmonial/testimonialOne.png";
 import testimonialTwo from "./images/testmonial/testimonialTwo.png";
+import user from "./images/testmonial/user1.png";
 import quote from "./images/testmonial/quote.png";
 import contactImg from "./images/contact/contactImg.png";
 import wallet from "./images/projects/wallet.png";
@@ -21,5 +22,6 @@ export {
   quote,
   contactImg,
   wallet,
-  gofish
+  gofish,
+  user
 };

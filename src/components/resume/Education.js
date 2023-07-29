@@ -19,19 +19,19 @@ const Education = () => {
           <ResumeCard
             title="Master in Computer Science"
             subTitle="Ecole Nationale Supérieure Polytechnique de Yaoundé (2017 - 2022)"
-            result="3.08/4"
+            result="Yaounde, CAMEROON"
             des="The training provided by universities in order to prepare people to work in various sectors."
           />
           <ResumeCard
             title="License I - Mathematics"
             subTitle="Université de Yaoundé I (2016 - 2017)"
-            result="2.5/4"
+            result="Yaounde, CAMEROON"
             des="A public scientific and cultural establishment with legal personality and financial autonomy."
           />
           <ResumeCard
             title="Secondary School Education"
-            subTitle="Bilingual High School Of Mendong(2009 - 2016)"
-            result="13.09/20"
+            subTitle="Bilingual High School Of Mendong (2009 - 2016)"
+            result="Yaounde, CAMEROON"
             des="Secondary education or post-primary education covers two phases on the International Standard Classification of Education scale."
           />
         </div>

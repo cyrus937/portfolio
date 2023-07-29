@@ -4,11 +4,11 @@ import Media from './Media';
 
 const LeftBanner = () => {
     const [text] = useTypewriter({
-      words: [ "Full Stack Developer.", "Back-end Developer", "Mobile Developer.", "Web Designer.", "Young Contractor.", "Junior Data Scientist"],
+      words: [ "Full Stack Developer.", "Back-end Developer.", "Mobile Developer.", "Web Designer.", "Young Contractor.", "Junior Data Scientist."],
       loop: true,
-      typeSpeed: 20,
-      deleteSpeed: 10,
-      delaySpeed: 2000,
+      typeSpeed: 30,
+      deleteSpeed: 20,
+      delaySpeed: 3000,
     });
   return (
     <div className="w-full lgl:w-1/2 flex flex-col gap-20">
@@ -26,7 +26,7 @@ const LeftBanner = () => {
           />
         </h2>
         <p className="text-base font-bodyFont leading-6 tracking-wide">
-        Interested in new technologies and working methods. I like to come up with ideas that to permit to improve business processes.<br></br>
+        Interested in new technologies and working methods. I like to come up with ideas that permit to improve business processes.<br></br>
         Passionate about development <b>Back-End</b> and <b>Front-End</b>.
         </p>
       </div>
