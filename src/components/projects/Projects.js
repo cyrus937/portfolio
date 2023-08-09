@@ -17,7 +17,7 @@ const Projects = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-14">
         <ProjectsCard
-          title="Wallet management - Work In Progress"
+          title="Wallet management"
           des=" A solution for managing your wallet and all your cash inflows and outflows"
           src={wallet}
           link="https://portefeuille-web.vercel.app/"
