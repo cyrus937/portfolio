@@ -45,18 +45,25 @@ const Education = () => {
         </div>
         <div className="mt-6 lgl:mt-14 w-full h-[1000px] border-l-[6px] border-l-black border-opacity-30 flex flex-col gap-10">
           <ResumeCard
+            title="R&D Engineer"
+            subTitle="Inria - (Sept 2023 - Present)"
+            result="Rennes, FRANCE"
+            des="Developing a framework to test decentralized machine learning algorithms in a cluster environment, in a production environment, and in a combination of the two."
+          // des="Google's hiring process is an important part of our culture. Googlers care deeply about their teams and the people who make them up."
+          />
+          <ResumeCard
             title="Jr. Back-end Developper"
-            subTitle="Moobifun - (April 2022 - Present)"
+            subTitle="Moobifun - (April 2023 - Aug 2023)"
             result="Yaounde, CAMEROON"
             des="Moobifun's recruitment process is an important part of our culture. Moobifun employees are very attached to their teams and the people who make them up."
-            // des="Google's hiring process is an important part of our culture. Googlers care deeply about their teams and the people who make them up."
+          // des="Google's hiring process is an important part of our culture. Googlers care deeply about their teams and the people who make them up."
           />
           <ResumeCard
             title="Full-stack Developper"
-            subTitle="Connect Technology - (2022 - March 2023)"
+            subTitle="Connect Technology - (Oct 2022 - March 2023)"
             result="Yaounde, CAMEROON"
             des="A good place to start if you're thirsty for knowledge"
-            // des="A popular destination with a growing number of highly qualified homegrown graduates, it's true that securing a role in Malaysia isn't easy."
+          // des="A popular destination with a growing number of highly qualified homegrown graduates, it's true that securing a role in Malaysia isn't easy."
           />
           {/* <ResumeCard
             title="Front-end Developer"

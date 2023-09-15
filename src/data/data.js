@@ -1,5 +1,5 @@
 import { AiFillAppstore } from "react-icons/ai";
-import { FaMobile, FaGlobe, FaDatabase} from "react-icons/fa";
+import { FaMobile, FaGlobe, FaDatabase, FaConnectdevelop} from "react-icons/fa";
 import { SiProgress, SiAntdesign, SiDatacamp, SiCodeforces } from "react-icons/si";
 
 // Features Data
@@ -37,13 +37,20 @@ export const featuresData = [
     icon: <SiCodeforces />,
     title: "Data Science",
     des: "Use of machine learning algorithms for natural language processing or prediction.",
-    tech: "Python, nltk, Scikit-learn"
+    tech: "Python, nltk, Scikit-learn, Tensorflow"
   },
   {
     id: 6,
     icon: <FaGlobe />,
     title: "Web Developement",
-    des: "developing responsive web interfaces with a good UI/UX.",
+    des: "Developing responsive web interfaces with a good UI/UX.",
     tech: "Angular, React JS, HTML, CSS, BootStrap"
+  },
+  {
+    id: 6,
+    icon: <FaConnectdevelop />,
+    title: "Distributed System",
+    des: "Implementation and testing of algorithms in a decentralized environment. ",
+    tech: "Federated Learning, Flower"
   },
 ];

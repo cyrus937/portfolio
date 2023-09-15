@@ -4,7 +4,7 @@ import Media from './Media';
 
 const LeftBanner = () => {
     const [text] = useTypewriter({
-      words: [ "Full Stack Developer.", "Back-end Developer.", "Mobile Developer.", "Web Designer.", "Young Contractor.", "Junior Data Scientist."],
+      words: [ "Research Engineer.", "Full Stack Developer.", "Back-end Developer.", "Mobile Developer.", "Web Designer.", "Young Contractor.", "Junior Data Scientist."],
       loop: true,
       typeSpeed: 30,
       deleteSpeed: 20,
@@ -13,7 +13,7 @@ const LeftBanner = () => {
   return (
     <div className="w-full lgl:w-1/2 flex flex-col gap-20">
       <div className="flex flex-col gap-5">
-        <h4 className=" text-lg font-normal">WELCOME TO MY WORLD OF FREELANCING</h4>
+        <h4 className=" text-lg font-normal">WELCOME TO MY WORLD</h4>
         <h1 className="text-5xl font-bold text-white">
           Hi, I'm <span className="text-designColor capitalize">Cyrille Kenfack</span>
         </h1>
