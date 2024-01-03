@@ -21,7 +21,7 @@ const ContactLeft = () => {
         scalable data systems. I have in-depth expertise in relational and non-relational databases. I also have knowledge of data analysis.
         </p>
         <p className="text-base text-gray-400 flex items-center gap-2">
-          Phone: <span className="text-lightText">+237 695104050</span>
+          Phone: <span className="text-lightText">+33 758387850</span>
         </p>
         <p className="text-base text-gray-400 flex items-center gap-2">
           Email: <span className="text-lightText">cyrillekenfack4@gmail.com</span>
@@ -30,7 +30,7 @@ const ContactLeft = () => {
       <div className="flex flex-col gap-4">
         <h2 className="text-base uppercase font-titleFont mb-4">Find me in</h2>
         <div className="flex gap-4">
-        <a href="https://wa.me/237695104050">
+        <a href="https://wa.me/33758387850">
             <span className="bannerIcon">
               <FaWhatsapp />
             </span>
