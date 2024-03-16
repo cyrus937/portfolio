@@ -51,6 +51,6 @@ export const featuresData = [
     icon: <FaConnectdevelop />,
     title: "Distributed System",
     des: "Implementation and testing of algorithms in a decentralized environment. ",
-    tech: "Federated Learning, Flower"
+    tech: "Federated Learning, Flower, DecLearn, P2P, Tensorflow, Pytorch, Rust, Python"
   },
 ];
