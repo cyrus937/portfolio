@@ -20,7 +20,7 @@ const Projects = () => {
           title="Wallet management"
           des=" A solution for managing your wallet and all your cash inflows and outflows"
           src={wallet}
-          link="https://portefeuille-web.vercel.app/"
+          link=""
           tech="Angular, Material UI, Spring Boot, MySQL"
         />
         <ProjectsCard
