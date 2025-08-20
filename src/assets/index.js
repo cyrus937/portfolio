@@ -10,6 +10,7 @@ import quote from "./images/testmonial/quote.png";
 import contactImg from "./images/contact/contactImg.png";
 import wallet from "./images/projects/wallet.png";
 import gofish from "./images/projects/gofish.png";
+import currencyconverter from "./images/projects/currencyconverter.png"
 
 export {
   logo,
@@ -23,5 +24,6 @@ export {
   contactImg,
   wallet,
   gofish,
-  user
+  user,
+  currencyconverter
 };

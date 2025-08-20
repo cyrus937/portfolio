@@ -1,6 +1,6 @@
 import React from 'react'
 import Title from '../layouts/Title'
-import { projectOne, projectTwo, projectThree, wallet, gofish } from "../../assets/index";
+import { projectOne, projectTwo, projectThree, wallet, gofish, currencyconverter } from "../../assets/index";
 import ProjectsCard from './ProjectsCard';
 
 const Projects = () => {
@@ -29,6 +29,13 @@ const Projects = () => {
           src={gofish}
           link=""
           tech="Flutter, Django Rest, PostgreSQL"
+        />
+        <ProjectsCard
+          title="API Currency Converter"
+          des=" A free, open-source Flask API providing real-time currency conversion with JWT authentication, Redis caching, and production-ready security for fintech applications."
+          src={urrencyconverter}
+          link="https://api-currency-converter.my-finapp.com/docs"
+          tech="Flask, PostgreSQL,Redis, Docker, Celery"
         />
         {/* <ProjectsCard
           title="Chatting App"
