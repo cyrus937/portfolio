@@ -33,7 +33,7 @@ const Projects = () => {
         <ProjectsCard
           title="API Currency Converter"
           des=" A free, open-source Flask API providing real-time currency conversion with JWT authentication, Redis caching, and production-ready security for fintech applications."
-          src={urrencyconverter}
+          src={currencyconverter}
           link="https://api-currency-converter.my-finapp.com/docs"
           tech="Flask, PostgreSQL,Redis, Docker, Celery"
         />
