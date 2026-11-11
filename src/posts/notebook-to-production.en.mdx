@@ -1,0 +1,71 @@
+A model that scores well in a notebook is a hypothesis. A model behind an authenticated, tested, containerised API is a product. Most of my work today sits between those two states — taking machine-learning, deep-learning and text-mining algorithms from data scientists and turning them into services on a cloud platform.
+
+The gap is rarely the model. It's everything around it. Here is the checklist I go through.
+
+## 1. It installs the same way everywhere
+
+Notebooks hide their environment. The first step is making dependencies explicit and locked.
+
+- **One tool, one lockfile.** I use Poetry with a shared project template, so every new service starts with the same layout, the same tooling and pinned versions.
+- **Pin the interpreter too.** `pyenv` plus a declared Python version avoids "works on my machine" when the platform upgrades.
+
+## 2. It runs without Jupyter
+
+If the only way to run the code is "execute cells 1 to 14", nobody else can run it. Every algorithm gets a small command-line entry point. `python-fire` makes that almost free:
+
+```python
+import fire
+
+def predict(input_path: str, model_path: str = "model.pt", threshold: float = 0.5):
+    """Score every record in input_path and write predictions next to it."""
+    ...
+
+if __name__ == "__main__":
+    fire.Fire(predict)
+```
+
+```bash
+python -m scoring.predict data/batch.parquet --threshold 0.7
+```
+
+The CLI becomes the contract: the API calls the same function, and data scientists can test changes without touching the service.
+
+## 3. It's tested where it can break
+
+Not everything needs 100% coverage, but some things always need a test:
+
+- **Shapes and schemas** of inputs and outputs — the most common production failure is a column that changed name.
+- **Edge cases** the notebook never saw: empty inputs, missing values, a single row.
+- **A golden sample**: a small fixed input with known expected outputs, so a refactor that changes results gets caught.
+
+```python
+def test_predict_keeps_row_count(tmp_path, sample_batch):
+    out = predict(sample_batch, model_path=FIXTURE_MODEL)
+    assert len(out) == len(sample_batch)
+    assert out["score"].between(0, 1).all()
+```
+
+Linters and formatters (`pylint`, `yapf`, `isort`) run in CI so reviews can focus on logic, not style.
+
+## 4. It's a service, not a script
+
+The model goes behind an HTTP API — FastAPI in my case — with:
+
+- **typed request and response models**, so invalid inputs are rejected before they reach the model;
+- **delegated authentication**: the service validates tokens issued by Keycloak (OAuth2/OIDC) instead of inventing its own auth;
+- a **health endpoint** that actually loads the model, not one that just returns 200.
+
+## 5. It runs the same locally and in the cluster
+
+- **Docker Compose locally** with the same image that ships, plus the dependencies it talks to.
+- **Kubernetes in production** — resources, readiness probes and replicas declared rather than hoped for.
+
+If a bug can only be reproduced in the cluster, the local setup is lying to you.
+
+## 6. Someone else can pick it up
+
+The last step is the least glamorous: a README that explains how to run, test and deploy the service, and documentation in the team wiki. Deliverables in English, so the service outlives the people who wrote it.
+
+## The point
+
+None of this is about clever ML. It's about removing the reasons a good model fails in production: an unpinned dependency, a schema change, an unauthenticated endpoint, an environment nobody can reproduce. The checklist is boring on purpose — boring is what reliable looks like.

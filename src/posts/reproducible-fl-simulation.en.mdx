@@ -1,0 +1,66 @@
+When you benchmark **asynchronous, decentralised federated learning**, the interesting behaviour is precisely what's hardest to control: nodes that run at different speeds, peers that go stale, models that get averaged with information that is already out of date.
+
+My first benchmark modelled that the obvious way — one OS thread per node — and it worked, in the sense that it ran. It did not work in the sense that matters for research: **two runs with the same seed gave different results.**
+
+## Why threads were the wrong abstraction
+
+With one thread per node, asynchrony is *implicit*. Who trains next, who gossips with whom and in what order — all of it is decided by the operating system's scheduler. That has three consequences:
+
+1. **No reproducibility.** The OS scheduler is not seeded. Re-running an experiment is a new experiment.
+2. **No explanation.** When strategy A beats strategy B, you can't tell whether it's the algorithm or the interleaving you happened to get.
+3. **No real parallelism anyway.** In CPython, the GIL serialises the Python parts of the work, so N threads mostly add contention.
+
+## Make time explicit
+
+The rewrite uses **discrete-event simulation (DES)**. Instead of letting time pass, the simulator *manages* it:
+
+- a heap holds the upcoming events as `(time, node, action)`;
+- each iteration pops the earliest event, executes it, and lets the node schedule its next one;
+- **heterogeneity is a number**: a node with `speed=5` schedules five times as often as a node with `speed=1`.
+
+A simplified version of the core loop:
+
+```python
+import heapq
+
+def run(nodes, until):
+    events = [(1.0 / n.speed, i) for i, n in enumerate(nodes)]
+    heapq.heapify(events)
+    while events:
+        t, i = heapq.heappop(events)
+        if t > until:
+            break
+        nodes[i].step(now=t)                      # train / aggregate
+        heapq.heappush(events, (t + 1.0 / nodes[i].speed, i))
+```
+
+Everything is sequential, on one thread, and **deterministic at a fixed seed**. The scheduler is now part of the experiment instead of a hidden variable.
+
+## Keep the one asynchrony that matters
+
+Making *everything* deterministic would have thrown away something real: in a gossip protocol, a node's view of its peers changes while it is busy. So exactly one component stays truly asynchronous — each node's `GossipSampler` runs in a background thread and refreshes the peer view in wall-clock time.
+
+When a node picks a peer, it reads a view that may have changed since its last event. That's the realism I wanted to keep, isolated in one place where it's easy to reason about.
+
+| | Threads (before) | DES (after) |
+|---|---|---|
+| Execution | N parallel threads | Sequential, 1 thread |
+| Reproducible | No (OS scheduler) | Yes (except gossip) |
+| Asynchrony | Implicit | Explicit, simulated time |
+| CPU | Limited by the GIL | Better (1 thread) |
+
+## What it unlocked
+
+With time under control, comparing strategies became fair. The benchmark now runs **nine aggregation strategies** behind one interface — FedAvg-style averaging, D-PSGD gossip, AD-PSGD, D², several staleness-decay functions, and two original methods — on six datasets with IID or Dirichlet non-IID partitioning. A full sweep is a single command:
+
+```bash
+python run.py --all-strategies
+```
+
+## Takeaways
+
+- **Reproducibility is designed, not hoped for.** If an outcome depends on something you don't control, make it a parameter.
+- **Isolate the non-determinism you keep.** One well-understood asynchronous component is a feature; a whole system of them is noise.
+- **Simulated time is cheaper than real time.** One thread doing useful work beats many threads waiting on a lock.
+
+The code is on GitHub: [cyrus937/async_fl_bench](https://github.com/cyrus937/async_fl_bench).

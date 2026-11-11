@@ -1,0 +1,66 @@
+Quand on évalue l'**apprentissage fédéré décentralisé et asynchrone**, le comportement intéressant est justement le plus difficile à maîtriser : des nœuds qui tournent à des vitesses différentes, des pairs obsolètes, des modèles moyennés avec une information déjà périmée.
+
+Mon premier banc d'essai modélisait cela de la façon la plus évidente — un thread système par nœud — et ça marchait, au sens où ça tournait. Pas au sens qui compte pour la recherche : **deux exécutions avec la même seed donnaient des résultats différents.**
+
+## Pourquoi les threads étaient la mauvaise abstraction
+
+Avec un thread par nœud, l'asynchronisme est *implicite*. Qui s'entraîne ensuite, qui échange avec qui et dans quel ordre : tout est décidé par l'ordonnanceur du système d'exploitation. Trois conséquences :
+
+1. **Pas de reproductibilité.** L'ordonnanceur de l'OS n'a pas de seed. Relancer une expérience, c'est en lancer une nouvelle.
+2. **Pas d'explication.** Quand la stratégie A bat la stratégie B, impossible de savoir si c'est l'algorithme ou l'entrelacement obtenu par hasard.
+3. **Pas de vrai parallélisme de toute façon.** En CPython, le GIL sérialise la partie Python du travail : N threads ajoutent surtout de la contention.
+
+## Rendre le temps explicite
+
+La réécriture repose sur une **simulation à événements discrets (DES)**. Au lieu de laisser le temps passer, le simulateur le *gère* :
+
+- un tas contient les prochains événements `(temps, nœud, action)` ;
+- chaque itération traite l'événement le plus proche, puis le nœud planifie le suivant ;
+- **l'hétérogénéité devient un nombre** : un nœud de `speed=5` agit cinq fois plus souvent qu'un nœud de `speed=1`.
+
+Une version simplifiée de la boucle principale :
+
+```python
+import heapq
+
+def run(nodes, until):
+    events = [(1.0 / n.speed, i) for i, n in enumerate(nodes)]
+    heapq.heapify(events)
+    while events:
+        t, i = heapq.heappop(events)
+        if t > until:
+            break
+        nodes[i].step(now=t)                      # entraîner / agréger
+        heapq.heappush(events, (t + 1.0 / nodes[i].speed, i))
+```
+
+Tout est séquentiel, sur un seul thread, et **déterministe à seed fixée**. L'ordonnancement fait désormais partie de l'expérience au lieu d'être une variable cachée.
+
+## Garder le seul asynchronisme qui compte
+
+Tout rendre déterministe aurait fait perdre quelque chose de réel : dans un protocole gossip, la vue qu'un nœud a de ses pairs change pendant qu'il travaille. Un seul composant reste donc réellement asynchrone : le `GossipSampler` de chaque nœud tourne dans un thread en arrière-plan et met à jour sa vue en temps réel.
+
+Quand un nœud choisit un pair, il lit une vue qui a pu changer depuis son dernier événement. C'est le réalisme que je voulais conserver, isolé à un seul endroit facile à raisonner.
+
+| | Threads (avant) | DES (après) |
+|---|---|---|
+| Exécution | N threads parallèles | Séquentielle, 1 thread |
+| Reproductible | Non (ordonnanceur OS) | Oui (sauf gossip) |
+| Asynchronisme | Implicite | Explicite, temps simulé |
+| CPU | Limité par le GIL | Meilleur (1 thread) |
+
+## Ce que ça a débloqué
+
+Avec le temps sous contrôle, comparer les stratégies est devenu équitable. Le banc d'essai fait tourner **neuf stratégies d'agrégation** derrière une même interface — moyenne façon FedAvg, gossip D-PSGD, AD-PSGD, D², plusieurs fonctions de décroissance selon l'obsolescence et deux méthodes originales — sur six jeux de données, en partitionnement IID ou Dirichlet non-IID. Un balayage complet tient en une commande :
+
+```bash
+python run.py --all-strategies
+```
+
+## À retenir
+
+- **La reproductibilité se conçoit, elle ne s'espère pas.** Si un résultat dépend de quelque chose qu'on ne contrôle pas, il faut en faire un paramètre.
+- **Isoler le non-déterminisme qu'on garde.** Un composant asynchrone bien compris est une fonctionnalité ; tout un système de composants asynchrones, c'est du bruit.
+- **Le temps simulé coûte moins cher que le temps réel.** Un thread qui travaille vaut mieux que plusieurs threads qui attendent un verrou.
+
+Le code est sur GitHub : [cyrus937/async_fl_bench](https://github.com/cyrus937/async_fl_bench).
