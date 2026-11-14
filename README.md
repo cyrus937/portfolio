@@ -72,3 +72,16 @@ CV PDFs are served from `public/cv/`. EmailJS keys can be overridden with `VITE_
 ## Deploy
 
 Vercel detects Vite automatically (build: `npm run build`, output: `dist`). `vercel.json` enables clean URLs and long-term caching for hashed assets; `dist/404.html` is served for unknown paths.
+
+### GitHub Pages (mirror)
+
+Every push to `main` that passes CI also publishes the same build to <https://cyrus937.github.io/> by pushing `dist/` to the `cyrus937/cyrus937.github.io` repository (job `deploy-github-pages` in `.github/workflows/ci.yml`).
+
+One-time setup:
+
+1. Create a deploy key: `ssh-keygen -t ed25519 -C "portfolio deploy" -N "" -f gh-pages-deploy`
+2. In **cyrus937/cyrus937.github.io → Settings → Deploy keys**, add `gh-pages-deploy.pub` with **Allow write access**.
+3. In **cyrus937/portfolio → Settings → Secrets and variables → Actions**, add the secret `GH_PAGES_DEPLOY_KEY` with the content of `gh-pages-deploy` (private key), then delete both local files.
+4. In **cyrus937/cyrus937.github.io → Settings → Pages**, source: *Deploy from a branch*, `main`, `/ (root)`.
+
+Notes: canonical URLs, sitemap and Open Graph point to the Vercel domain (`SITE_URL` in `src/lib/head.ts`) so search engines treat GitHub Pages as a mirror. Vercel Analytics is disabled on `*.github.io`.

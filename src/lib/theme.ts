@@ -44,9 +44,13 @@ function resolve(pref: ThemePref): Theme {
 
 /** Where the last theme change was triggered from (for the circular reveal). */
 let origin: { x: number; y: number } | null = null;
+/** Only animate changes the user asked for; OS-level switches apply instantly. */
+let userInitiated = false;
 
 function apply(theme: Theme) {
   const root = document.documentElement;
+  const animate = userInitiated;
+  userInitiated = false;
   if (root.dataset.theme === theme) return;
   const run = () => {
     root.dataset.theme = theme;
@@ -55,11 +59,12 @@ function apply(theme: Theme) {
   type VT = { ready: Promise<void> };
   const doc = document as Document & { startViewTransition?: (cb: () => void) => VT };
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!doc.startViewTransition || reduce) {
+  if (!doc.startViewTransition || reduce || !animate) {
+    origin = null;
     run();
     return;
   }
-  // Circular reveal from the clicked control (or from the top-right corner for OS changes).
+  // Circular reveal from the clicked control (or from the top-right corner, e.g. from the palette).
   const { x, y } = origin ?? { x: window.innerWidth - 40, y: 40 };
   origin = null;
   const r = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
@@ -97,11 +102,13 @@ function useThemeState() {
 
   const setPref = useCallback((p: ThemePref, from?: { x: number; y: number }) => {
     origin = from ?? null;
+    userInitiated = true;
     writePref(p);
   }, []);
   /** Cycle dark → light → system. */
   const cycle = useCallback(() => {
     const p = readPref();
+    userInitiated = true;
     writePref(p === "dark" ? "light" : p === "light" ? "system" : "dark");
   }, []);
 

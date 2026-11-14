@@ -8,8 +8,12 @@ type Props = Record<string, string | number | boolean | null>;
 
 let trackFn: ((name: string, props?: Props) => void) | null = null;
 
+// Vercel Analytics only works on Vercel: skip local previews and the GitHub Pages mirror.
 const isProdHost = () =>
-  typeof window !== "undefined" && import.meta.env.PROD && !["localhost", "127.0.0.1"].includes(location.hostname);
+  typeof window !== "undefined" &&
+  import.meta.env.PROD &&
+  !["localhost", "127.0.0.1"].includes(location.hostname) &&
+  !location.hostname.endsWith(".github.io");
 
 export async function initAnalytics() {
   if (!isProdHost()) return;
