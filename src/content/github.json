@@ -1,0 +1,281 @@
+{
+  "fetchedAt": "2026-11-14T05:42:59.269Z",
+  "user": {
+    "publicRepos": 36,
+    "followers": 5,
+    "since": "2019"
+  },
+  "stars": 4,
+  "repos": [
+    {
+      "name": "portfolio",
+      "description": null,
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2026-11-14T05:32:06Z",
+      "url": "https://github.com/cyrus937/portfolio",
+      "homepage": "https://portfolio-cyrus937.vercel.app"
+    },
+    {
+      "name": "async_fl_bench",
+      "description": null,
+      "language": "Python",
+      "stars": 0,
+      "pushedAt": "2026-05-28T09:37:43Z",
+      "url": "https://github.com/cyrus937/async_fl_bench",
+      "homepage": null
+    },
+    {
+      "name": "testforge",
+      "description": null,
+      "language": "Rust",
+      "stars": 2,
+      "pushedAt": "2026-05-04T09:53:35Z",
+      "url": "https://github.com/cyrus937/testforge",
+      "homepage": null
+    },
+    {
+      "name": "github-final-project",
+      "description": null,
+      "language": "Shell",
+      "stars": 0,
+      "pushedAt": "2025-09-29T08:05:00Z",
+      "url": "https://github.com/cyrus937/github-final-project",
+      "homepage": null
+    },
+    {
+      "name": "LogisticsShippingRates",
+      "description": null,
+      "language": "Python",
+      "stars": 0,
+      "pushedAt": "2025-09-25T09:24:04Z",
+      "url": "https://github.com/cyrus937/LogisticsShippingRates",
+      "homepage": null
+    },
+    {
+      "name": "lab-agile-planning",
+      "description": "This repository contains the lab for agile planning",
+      "language": null,
+      "stars": 0,
+      "pushedAt": "2025-09-16T08:08:54Z",
+      "url": "https://github.com/cyrus937/lab-agile-planning",
+      "homepage": null
+    },
+    {
+      "name": "flask-currency-converter",
+      "description": "A free, open-source Flask API providing real-time currency conversion with JWT authentication, Redis caching, and production-ready security for fintech applications.",
+      "language": "Python",
+      "stars": 2,
+      "pushedAt": "2025-08-20T11:02:36Z",
+      "url": "https://github.com/cyrus937/flask-currency-converter",
+      "homepage": "https://api-currency-converter.my-finapp.com/docs"
+    },
+    {
+      "name": "libp2p-node",
+      "description": null,
+      "language": "Rust",
+      "stars": 0,
+      "pushedAt": "2024-01-22T16:06:23Z",
+      "url": "https://github.com/cyrus937/libp2p-node",
+      "homepage": null
+    },
+    {
+      "name": "pyo3_example",
+      "description": null,
+      "language": "Rust",
+      "stars": 0,
+      "pushedAt": "2023-12-19T13:49:39Z",
+      "url": "https://github.com/cyrus937/pyo3_example",
+      "homepage": null
+    },
+    {
+      "name": "backend-gestion-projet",
+      "description": null,
+      "language": "Java",
+      "stars": 0,
+      "pushedAt": "2022-10-25T01:52:19Z",
+      "url": "https://github.com/cyrus937/backend-gestion-projet",
+      "homepage": null
+    },
+    {
+      "name": "frontend-gestion-projet",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2022-10-21T09:47:04Z",
+      "url": "https://github.com/cyrus937/frontend-gestion-projet",
+      "homepage": null
+    },
+    {
+      "name": "api-virtual-patient",
+      "description": null,
+      "language": "Python",
+      "stars": 0,
+      "pushedAt": "2022-08-20T18:18:02Z",
+      "url": "https://github.com/cyrus937/api-virtual-patient",
+      "homepage": null
+    },
+    {
+      "name": "cyrus937.github.io",
+      "description": null,
+      "language": "HTML",
+      "stars": 0,
+      "pushedAt": "2022-08-09T16:05:28Z",
+      "url": "https://github.com/cyrus937/cyrus937.github.io",
+      "homepage": null
+    },
+    {
+      "name": "Machine-Learning-Coursera",
+      "description": null,
+      "language": "MATLAB",
+      "stars": 0,
+      "pushedAt": "2021-12-09T10:43:33Z",
+      "url": "https://github.com/cyrus937/Machine-Learning-Coursera",
+      "homepage": null
+    },
+    {
+      "name": "talks",
+      "description": null,
+      "language": "CMake",
+      "stars": 0,
+      "pushedAt": "2021-10-30T11:49:33Z",
+      "url": "https://github.com/cyrus937/talks",
+      "homepage": null
+    },
+    {
+      "name": "Compta",
+      "description": "Compta est iune application mobile qui permet de faire des compte dans un magasin",
+      "language": "Dart",
+      "stars": 0,
+      "pushedAt": "2021-10-12T14:28:27Z",
+      "url": "https://github.com/cyrus937/Compta",
+      "homepage": null
+    },
+    {
+      "name": "Plugin-Window-Flutter",
+      "description": null,
+      "language": "C++",
+      "stars": 0,
+      "pushedAt": "2021-07-02T12:34:23Z",
+      "url": "https://github.com/cyrus937/Plugin-Window-Flutter",
+      "homepage": null
+    },
+    {
+      "name": "GitHub-Graphql-Client-Desktop-App",
+      "description": null,
+      "language": "C++",
+      "stars": 0,
+      "pushedAt": "2021-07-02T12:31:31Z",
+      "url": "https://github.com/cyrus937/GitHub-Graphql-Client-Desktop-App",
+      "homepage": null
+    },
+    {
+      "name": "Impl-mentation-diff-rences-finies-et-Volumes-finis-1D-et-2D",
+      "description": null,
+      "language": null,
+      "stars": 0,
+      "pushedAt": "2021-07-01T04:54:35Z",
+      "url": "https://github.com/cyrus937/Impl-mentation-diff-rences-finies-et-Volumes-finis-1D-et-2D",
+      "homepage": null
+    },
+    {
+      "name": "Achat-en-ligne",
+      "description": "Il s'agit d'un site web de vente en ligne de certains articles",
+      "language": "HTML",
+      "stars": 0,
+      "pushedAt": "2021-06-17T13:41:14Z",
+      "url": "https://github.com/cyrus937/Achat-en-ligne",
+      "homepage": null
+    },
+    {
+      "name": "Mashapp",
+      "description": null,
+      "language": "HTML",
+      "stars": 0,
+      "pushedAt": "2021-02-18T00:27:52Z",
+      "url": "https://github.com/cyrus937/Mashapp",
+      "homepage": null
+    },
+    {
+      "name": "School-Management",
+      "description": "C'est une application de gestion des fonds d'une école",
+      "language": "Java",
+      "stars": 0,
+      "pushedAt": "2021-02-18T00:25:15Z",
+      "url": "https://github.com/cyrus937/School-Management",
+      "homepage": null
+    },
+    {
+      "name": "Frontend",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2021-02-16T14:54:01Z",
+      "url": "https://github.com/cyrus937/Frontend",
+      "homepage": null
+    },
+    {
+      "name": "Site-GiTech",
+      "description": null,
+      "language": "HTML",
+      "stars": 0,
+      "pushedAt": "2020-10-29T03:09:48Z",
+      "url": "https://github.com/cyrus937/Site-GiTech",
+      "homepage": null
+    },
+    {
+      "name": "GestRisk",
+      "description": null,
+      "language": "Java",
+      "stars": 0,
+      "pushedAt": "2020-10-16T08:57:30Z",
+      "url": "https://github.com/cyrus937/GestRisk",
+      "homepage": null
+    },
+    {
+      "name": "Talks-messagerie",
+      "description": null,
+      "language": "Dart",
+      "stars": 0,
+      "pushedAt": "2020-10-16T07:50:33Z",
+      "url": "https://github.com/cyrus937/Talks-messagerie",
+      "homepage": null
+    },
+    {
+      "name": "Chainage-avant",
+      "description": null,
+      "language": "Java",
+      "stars": 0,
+      "pushedAt": "2020-10-01T09:47:41Z",
+      "url": "https://github.com/cyrus937/Chainage-avant",
+      "homepage": null
+    },
+    {
+      "name": "Gestion_Ferme",
+      "description": null,
+      "language": "Java",
+      "stars": 0,
+      "pushedAt": "2020-10-01T09:28:55Z",
+      "url": "https://github.com/cyrus937/Gestion_Ferme",
+      "homepage": null
+    },
+    {
+      "name": "SUPER_MARKET",
+      "description": null,
+      "language": "Java",
+      "stars": 0,
+      "pushedAt": "2020-06-23T14:34:31Z",
+      "url": "https://github.com/cyrus937/SUPER_MARKET",
+      "homepage": null
+    },
+    {
+      "name": "GestionFerme",
+      "description": "Cette application permet la gestion d'une ferme",
+      "language": null,
+      "stars": 0,
+      "pushedAt": "2020-01-16T08:28:19Z",
+      "url": "https://github.com/cyrus937/GestionFerme",
+      "homepage": null
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="%LANG%" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!--app-head-->
+    <meta name="author" content="Cyrille Kenfack" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f7f4" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Cyrille Kenfack",
+        "jobTitle": "Software Engineer",
+        "url": "https://cyrus-k.vercel.app/",
+        "address": { "@type": "PostalAddress", "addressLocality": "Rennes", "addressCountry": "FR" },
+        "alumniOf": "École Nationale Supérieure Polytechnique de Yaoundé",
+        "knowsAbout": ["Python", "Java", "FastAPI", "Spring Boot", "Machine Learning", "Kubernetes", "AWS"],
+        "sameAs": ["https://github.com/cyrus937", "https://www.linkedin.com/in/cyrille-kenfack-347b64195"]
+      }
+    </script>
+
+    <!-- Apply theme before paint (dark / light / system) -->
+    <script>
+      (function () {
+        var pref = "system";
+        try { pref = localStorage.getItem("ck-theme") || "system"; } catch (e) {}
+        var t = pref === "dark" || pref === "light"
+          ? pref
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = t;
+        document.documentElement.style.colorScheme = t;
+      })();
+    </script>
+    <!-- First-visit intro (once per session, skipped for reduced motion). Pure CSS, no JS dependency. -->
+    <script>
+      (function () {
+        var show = false;
+        try {
+          show = !sessionStorage.getItem("ck-intro") && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (show) sessionStorage.setItem("ck-intro", "1");
+        } catch (e) {}
+        if (show) document.documentElement.classList.add("has-intro");
+      })();
+    </script>
+    <style>
+      #intro { display: none; }
+      .has-intro #intro {
+        position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
+        background: var(--bg, #09090b);
+        animation: intro-out 0.75s 1.25s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+      #intro svg { width: 112px; height: 112px; overflow: visible; }
+      #intro .ck { font: 700 52px ui-monospace, SFMono-Regular, Menlo, monospace; fill: transparent;
+        stroke: var(--fg, #f4f4f5); stroke-width: 1.2; stroke-dasharray: 260; stroke-dashoffset: 260;
+        animation: intro-draw 0.9s 0.05s ease-out forwards, intro-fill 0.35s 0.8s ease-out forwards; }
+      #intro .dot { fill: #c6f432; transform-origin: 88px 22px; transform: scale(0);
+        animation: intro-pop 0.45s 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+      @keyframes intro-draw { to { stroke-dashoffset: 0; } }
+      @keyframes intro-fill { to { fill: var(--fg, #f4f4f5); stroke-width: 0; } }
+      @keyframes intro-pop { to { transform: scale(1); } }
+      @keyframes intro-out { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+    </style>
+  </head>
+  <body>
+    <div id="intro" aria-hidden="true">
+      <svg viewBox="0 0 112 112"><text class="ck" x="50%" y="58%" text-anchor="middle" dominant-baseline="middle">ck</text><circle class="dot" cx="88" cy="22" r="7" /></svg>
+    </div>
+    <div id="root"><!--app-html--></div>
+    <noscript>Cyrille Kenfack — Software Engineer. Email: cyrillekenfack4@gmail.com</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

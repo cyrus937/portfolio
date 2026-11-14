@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# Cyrille Kenfack — Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal portfolio of **Cyrille Kenfack**, Software Engineer (Python & Java · Backend, Data/ML & Cloud) — [cyrus-k.vercel.app](https://cyrus-k.vercel.app).
 
-## Available Scripts
+## Stack
 
-In the project directory, you can run:
+- **Vite 8** + **React 19** + **TypeScript**
+- **Tailwind CSS v4** (design tokens as CSS variables, light / dark / auto themes)
+- **Motion** for animations, **Lenis** for smooth scrolling
+- **EmailJS** for the contact form (lazy-loaded)
+- Self-hosted fonts: Geist, JetBrains Mono, Instrument Serif
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Pre-rendered** static HTML for every route (`/`, `/fr`, `/projects/:id`, `/fr/projects/:id`) with per-page title, description, canonical, `hreflang` and a generated `sitemap.xml` — then hydrated by React
+- **Case studies** for featured projects (problem, approach, architecture diagram, code, outcomes)
+- **GitHub section** generated at build time from the public API (`scripts/fetch-github.mjs`, committed snapshot in `src/content/github.json` as offline fallback; set `GITHUB_TOKEN` to raise the rate limit)
+- **Blog** in MDX (EN + FR), syntax highlighting at build time (Shiki, zero runtime JS), table of contents, reading progress, RSS feeds (`/rss.xml`, `/fr/rss.xml`)
+- **Now** section (`src/content/now.ts`) and **testimonials** (`src/content/testimonials.ts` — hidden until you add real quotes)
+- **Performance**: secondary pages, articles and the ⌘K palette are code-split; Motion's engine loads after first paint (`LazyMotion`)
+- **Polish**: first-visit intro (pure CSS, once per session), circular theme reveal from the clicked control, a subtle trailing cursor on desktop
+- **Analytics**: Vercel Web Analytics (cookie-less), only on the deployed site — enable it in the Vercel dashboard. Custom events (`cv_download`, `contact_sent`, `email_copy`, `terminal_command`, `palette_open`) need a plan that supports them
+- **Interactive terminal** in the hero — try `help`, `projects`, `open testforge`, `theme light`, `sudo hire-me`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Bilingual **EN / FR** (auto-detected from the browser, toggle in the nav)
+- Theme switch **light / dark / auto** (follows the OS live, no flash on load)
+- **⌘K / Ctrl+K** command palette (navigate, copy email, download CV, switch theme / language)
+- Animated hero terminal, scroll-linked timeline, spotlight cards, hand-built SVG project visuals
+- Respects `prefers-reduced-motion`; keyboard accessible; SEO meta + JSON-LD + Open Graph image
 
-### `npm test`
+## Development
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+npm run dev       # http://localhost:5173
+npm run build     # fetch GitHub data → type-check → client build → SSR build → pre-render
+npm run github    # refresh src/content/github.json only
+npm test          # Playwright end-to-end tests against dist/ (run after build)
+                  # locally with an installed Chrome: CHROME_PATH=/usr/bin/google-chrome npm test
+npm run lighthouse # Lighthouse CI on the build (perf / a11y / SEO budgets in lighthouserc.json)
+npm run preview   # serve the build
+```
 
-### `npm run build`
+## CI
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`.github/workflows/ci.yml` builds, runs the Playwright suite (desktop + mobile, fails on any console error or hydration mismatch) and Lighthouse CI on every push / PR.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Writing an article
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Add `src/posts/<slug>.en.mdx` and `src/posts/<slug>.fr.mdx`.
+2. Register it in `src/content/posts.ts` (metadata + loaders). It is pre-rendered, added to the sitemap and to both RSS feeds automatically.
 
-### `npm run eject`
+## Editing content
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+All copy lives in `src/content/` — every string is `{ en, fr }`:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| File | What |
+| --- | --- |
+| `profile.ts` | name, links, CV paths, about text, stats |
+| `experience.ts` | jobs (timeline) |
+| `projects.ts` | projects, visuals and case studies (a project with `caseStudy` gets its own page) |
+| `github.ts` | which repos to feature, with descriptions |
+| `skills.ts` | skill groups, levels (1–5), marquee logos |
+| `education.ts` | degrees, certifications, leadership |
+| `now.ts` | the "Now" snapshot |
+| `testimonials.ts` | real recommendations (section hidden while empty) |
+| `posts.ts` | blog metadata |
+| `ui.ts` | section titles, buttons, form labels |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+CV PDFs are served from `public/cv/`. EmailJS keys can be overridden with `VITE_EMAILJS_*` env vars (see `.env.example`).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Deploy
 
-## Learn More
+Vercel detects Vite automatically (build: `npm run build`, output: `dist`). `vercel.json` enables clean URLs and long-term caching for hashed assets; `dist/404.html` is served for unknown paths.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### GitHub Pages (mirror)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Every push to `main` that passes CI also publishes the same build to <https://cyrus937.github.io/> by pushing `dist/` to the `cyrus937/cyrus937.github.io` repository (job `deploy-github-pages` in `.github/workflows/ci.yml`).
 
-### Code Splitting
+One-time setup:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Create a deploy key: `ssh-keygen -t ed25519 -C "portfolio deploy" -N "" -f gh-pages-deploy`
+2. In **cyrus937/cyrus937.github.io → Settings → Deploy keys**, add `gh-pages-deploy.pub` with **Allow write access**.
+3. In **cyrus937/portfolio → Settings → Secrets and variables → Actions**, add the secret `GH_PAGES_DEPLOY_KEY` with the content of `gh-pages-deploy` (private key), then delete both local files.
+4. In **cyrus937/cyrus937.github.io → Settings → Pages**, source: *Deploy from a branch*, `main`, `/ (root)`.
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Notes: canonical URLs, sitemap and Open Graph point to the Vercel domain (`SITE_URL` in `src/lib/head.ts`) so search engines treat GitHub Pages as a mirror. Vercel Analytics is disabled on `*.github.io`.

@@ -1,0 +1,71 @@
+Un modèle qui obtient un bon score dans un notebook est une hypothèse. Un modèle derrière une API authentifiée, testée et conteneurisée est un produit. L'essentiel de mon travail aujourd'hui se situe entre ces deux états : prendre des algorithmes de machine learning, de deep learning et de text mining issus des data scientists, et en faire des services sur une plateforme cloud.
+
+L'écart vient rarement du modèle. Il vient de tout ce qu'il y a autour. Voici la checklist que je déroule.
+
+## 1. Il s'installe de la même façon partout
+
+Les notebooks cachent leur environnement. La première étape consiste à rendre les dépendances explicites et verrouillées.
+
+- **Un outil, un lockfile.** J'utilise Poetry avec un gabarit de projet partagé : chaque nouveau service démarre avec la même structure, le même outillage et des versions figées.
+- **Figer aussi l'interpréteur.** `pyenv` et une version de Python déclarée évitent le « ça marche chez moi » lors des montées de version de la plateforme.
+
+## 2. Il tourne sans Jupyter
+
+Si la seule façon d'exécuter le code est « lancer les cellules 1 à 14 », personne d'autre ne peut le faire. Chaque algorithme reçoit un petit point d'entrée en ligne de commande. `python-fire` le rend presque gratuit :
+
+```python
+import fire
+
+def predict(input_path: str, model_path: str = "model.pt", threshold: float = 0.5):
+    """Score chaque ligne de input_path et écrit les prédictions à côté."""
+    ...
+
+if __name__ == "__main__":
+    fire.Fire(predict)
+```
+
+```bash
+python -m scoring.predict data/batch.parquet --threshold 0.7
+```
+
+La CLI devient le contrat : l'API appelle la même fonction, et les data scientists peuvent tester leurs changements sans toucher au service.
+
+## 3. Il est testé là où il peut casser
+
+Tout n'a pas besoin de 100 % de couverture, mais certaines choses ont toujours besoin d'un test :
+
+- **Les formes et schémas** des entrées et sorties : la panne la plus fréquente en production est une colonne qui a changé de nom.
+- **Les cas limites** que le notebook n'a jamais vus : entrée vide, valeurs manquantes, une seule ligne.
+- **Un échantillon de référence** : une petite entrée fixe aux sorties connues, pour détecter un refactoring qui change les résultats.
+
+```python
+def test_predict_keeps_row_count(tmp_path, sample_batch):
+    out = predict(sample_batch, model_path=FIXTURE_MODEL)
+    assert len(out) == len(sample_batch)
+    assert out["score"].between(0, 1).all()
+```
+
+Linters et formateurs (`pylint`, `yapf`, `isort`) tournent en CI pour que les revues portent sur la logique, pas sur le style.
+
+## 4. C'est un service, pas un script
+
+Le modèle passe derrière une API HTTP — FastAPI dans mon cas — avec :
+
+- **des modèles de requête et de réponse typés**, pour rejeter les entrées invalides avant qu'elles n'atteignent le modèle ;
+- **une authentification déléguée** : le service valide les jetons émis par Keycloak (OAuth2/OIDC) au lieu de réinventer la sienne ;
+- un **endpoint de santé** qui charge réellement le modèle, pas un endpoint qui répond 200 quoi qu'il arrive.
+
+## 5. Il tourne pareil en local et dans le cluster
+
+- **Docker Compose en local**, avec la même image que celle livrée et les dépendances avec lesquelles elle échange.
+- **Kubernetes en production** : ressources, sondes de disponibilité et réplicas déclarés plutôt qu'espérés.
+
+Si un bug ne se reproduit que dans le cluster, c'est que l'environnement local vous ment.
+
+## 6. Quelqu'un d'autre peut le reprendre
+
+La dernière étape est la moins glamour : un README qui explique comment lancer, tester et déployer le service, et une documentation dans le wiki de l'équipe. Des livrables en anglais, pour que le service survive aux personnes qui l'ont écrit.
+
+## L'essentiel
+
+Rien de tout cela ne relève d'un ML astucieux. Il s'agit de supprimer les raisons pour lesquelles un bon modèle échoue en production : une dépendance non figée, un changement de schéma, un endpoint non authentifié, un environnement que personne ne sait reproduire. La checklist est ennuyeuse exprès : c'est à ça que ressemble la fiabilité.

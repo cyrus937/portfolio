@@ -1,48 +1,50 @@
 {
-  "name": "portfolioyoutube",
-  "version": "0.1.0",
+  "name": "cyrille-kenfack-portfolio",
   "private": true,
-  "dependencies": {
-    "@emailjs/browser": "^3.11.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "framer-motion": "^8.4.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^4.7.1",
-    "react-scripts": "5.0.1",
-    "react-scroll": "^1.8.9",
-    "react-simple-typewriter": "^5.0.1",
-    "react-slick": "^0.29.0",
-    "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
+  "version": "2.0.0",
+  "type": "module",
+  "engines": {
+    "node": "26.x"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "github": "node scripts/fetch-github.mjs",
+    "build": "node scripts/fetch-github.mjs && tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "lighthouse": "npx --yes @lhci/cli@0.16.0 autorun"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@emailjs/browser": "^5.0.3",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@vercel/analytics": "^2.0.1",
+    "lenis": "^1.3.27",
+    "lucide-react": "^1.71.0",
+    "motion": "^14.11.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0"
   },
   "devDependencies": {
-    "tailwindcss": "^3.2.4"
+    "@mdx-js/rollup": "^3.1.1",
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/mdx": "^2.0.14",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "rehype-pretty-code": "^0.14.6",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^4.6.0",
+    "sirv-cli": "^3.0.1",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.7"
   }
 }
